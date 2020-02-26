@@ -5,7 +5,9 @@
                 <div v-for="(item,k) in courses" :key="item.name+k"
                 :style="{backgroundColor:selectedCourse===(item.name+k)?'#ddd':'transparent'}"
                 @click="selectedCourse=(item.name+k)">
-                    {{ item.name+k }} - {{ item.price | currency('￥')}}
+                    <router-link :to="`/course/${item.name}`">
+                        {{ item.name+k }} - {{ item.price | currency('￥')}}
+                    </router-link>
                 </div>
         </div>
     </div>
