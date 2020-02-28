@@ -1,7 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-
+/**
+ * 重写路由的push方法
+ */
+const routerPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return routerPush.call(this, location).catch(error=> error)
+}
 Vue.use(VueRouter)
 //路由的配置
 const routes = [
@@ -11,12 +17,38 @@ const routes = [
     component: Home
   },
   {
+    path: '/login',
+    name: 'login',
+    component: ()=>import('../views/Login.vue')
+  },
+  {
     path: '/admin',
     name: 'admin',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Admin.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Admin.vue'),
+    children:[
+      {
+        path:'/admin/course/:name',
+        name:'detail',
+        component:()=>import('../views/Detail.vue')
+      }
+    ],
+    meta:{
+      auth:true
+    },
+    // beforeEnter(to,from,next){
+      
+    //     //是否登录
+    //     if(window.isLogin){
+    //       next()
+    //     }else{
+    //       next('/login?redirect='+to.fullPath)
+    //     }
+      
+    // }
+
   },
   {
     path: '/course/:name', 
@@ -34,5 +66,22 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+// 全局守卫
+// router.beforeEach((to,from,next)=>{
+//   //判断路由是否需要守卫
+//   //meta数据
+//   if(to.meta.auth)
+//   {
+//     //是否登录
+//     if(window.isLogin){
+//       next()
+//     }else{
+//       next('/login?redirect='+to.fullPath)
+//     }
+//   }else{
+//     next()
+//   }
+// })
 
 export default router

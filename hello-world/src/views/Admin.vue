@@ -2,6 +2,9 @@
   <div class="admin">
    <img alt="Vue logo" :src="`${publicPath}assets/logo.png`">
    <CourseList :courses="courses"></CourseList>
+
+   <!-- 嵌套内容出口 -->
+   <router-view></router-view>
   </div>
 </template>
 
@@ -32,5 +35,19 @@ export default {
       //批量更新价格
       //this.batchUpdate();
   },
+  methods: {
+    
+  },
+  beforeRouteEnter(to,from,next){
+      
+        //是否登录
+        if(window.isLogin){
+          next()
+        }else{
+          next('/login?redirect='+to.fullPath)
+        }
+      
+    }
+  
 }
 </script>
