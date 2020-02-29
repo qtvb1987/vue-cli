@@ -6,7 +6,7 @@ import Home from '../views/Home.vue'
  */
 const routerPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
-  return routerPush.call(this, location).catch(error=> error)
+  return routerPush.call(this, location).catch(error => error)
 }
 Vue.use(VueRouter)
 //路由的配置
@@ -19,44 +19,44 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: ()=>import('../views/Login.vue')
+    component: () => import('../views/Login.vue')
   },
-  {
-    path: '/admin',
-    name: 'admin',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Admin.vue'),
-    children:[
-      {
-        path:'/admin/course/:name',
-        name:'detail',
-        component:()=>import('../views/Detail.vue')
-      }
-    ],
-    meta:{
-      auth:true
-    },
-    // beforeEnter(to,from,next){
-      
-    //     //是否登录
-    //     if(window.isLogin){
-    //       next()
-    //     }else{
-    //       next('/login?redirect='+to.fullPath)
-    //     }
-      
-    // }
+  // {
+  //   path: '/admin',
+  //   name: 'admin',
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () => import(/* webpackChunkName: "about" */ '../views/Admin.vue'),
+  //   children: [
+  //     {
+  //       path: '/admin/course/:name',
+  //       name: 'detail',
+  //       component: () => import('../views/Detail.vue')
+  //     }
+  //   ],
+  //   meta: {
+  //     auth: true
+  //   },
+  //   // beforeEnter(to,from,next){
 
-  },
+  //   //     //是否登录
+  //   //     if(window.isLogin){
+  //   //       next()
+  //   //     }else{
+  //   //       next('/login?redirect='+to.fullPath)
+  //   //     }
+
+  //   // }
+
+  // },
   {
-    path: '/course/:name', 
+    path: '/course/:name',
     component: () => import('../views/Detail.vue')
   },
   {
     //会匹配所有路径
-    path: '*', 
+    path: '*',
     component: () => import('../views/404.vue')
   }
 ]
@@ -83,5 +83,26 @@ const router = new VueRouter({
 //     next()
 //   }
 // })
+
+router.beforeEach((to, from, next) => {
+  //判断逻辑：
+  //是否登录
+  if (window.isLogin) {
+    //去登录页
+    if (to.path === '/login') {
+      next('/')
+    } else {
+      next()
+    }
+  } else {
+    //没有登录
+    if (to.path === '/login') {
+      next()
+    } else {
+      next('/login?redirect=' + to.fullPath)
+    }
+  }
+
+})
 
 export default router

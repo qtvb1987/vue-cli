@@ -1,15 +1,12 @@
 <template>
-    <div>
-       <h2>404 Not Found!</h2>
-    </div>
+  <div>
+    <h2>404 Not Found!</h2>
+  </div>
 </template>
 
 <script>
-    export default {
-        
-    }
+export default {};
 </script>
 
 <style lang="scss" scoped>
-
 </style>
