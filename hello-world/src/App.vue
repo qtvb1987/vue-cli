@@ -1,21 +1,21 @@
 <template>
   <div id="app">
-   <nav>
-     <router-link to="/">首页</router-link>  &nbsp;&nbsp;&nbsp;&nbsp;
-     <router-link to="/admin">管理</router-link>   
-   </nav>
+    <nav>
+      <router-link to="/">首页</router-link>&nbsp;&nbsp;&nbsp;&nbsp;
+      <router-link to="/admin">管理</router-link>
+    </nav>
 
-    <!-- 路由出口 -->
-    <router-view></router-view>
+    <!-- 路由出口 动态:include="['admin']" max="10" 最大10个组件，进出-->
+    <keep-alive include="admin">
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 
 <script>
-
 export default {
-  name: 'App',
-  
-}
+  name: "App"
+};
 </script>
 
 <style>

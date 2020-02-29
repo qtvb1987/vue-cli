@@ -12,6 +12,7 @@
 import CourseList from "@/components/CourseList.vue";
 import { getCourses } from "@/api/course";
 export default {
+  name: "admin",
   components: {
     CourseList
   },
@@ -43,6 +44,12 @@ export default {
     } else {
       next("/login?redirect=" + to.fullPath);
     }
+  },
+  activated() {
+    console.log("activated");
+  },
+  deactivated() {
+    console.log("deactivated");
   }
 };
 </script>
