@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import store from '../store'
+
 /**
  * 重写路由的push方法
  */
@@ -21,35 +23,35 @@ const routes = [
     name: 'login',
     component: () => import('../views/Login.vue')
   },
-  // {
-  //   path: '/admin',
-  //   name: 'admin',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/Admin.vue'),
-  //   children: [
-  //     {
-  //       path: '/admin/course/:name',
-  //       name: 'detail',
-  //       component: () => import('../views/Detail.vue')
-  //     }
-  //   ],
-  //   meta: {
-  //     auth: true
-  //   },
-  //   // beforeEnter(to,from,next){
+  {
+    path: '/admin',
+    name: 'admin',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/Admin.vue'),
+    children: [
+      {
+        path: '/admin/course/:name',
+        name: 'detail',
+        component: () => import('../views/Detail.vue')
+      }
+    ],
+    meta: {
+      auth: true
+    },
+    // beforeEnter(to,from,next){
 
-  //   //     //是否登录
-  //   //     if(window.isLogin){
-  //   //       next()
-  //   //     }else{
-  //   //       next('/login?redirect='+to.fullPath)
-  //   //     }
+    //     //是否登录
+    //     if(window.isLogin){
+    //       next()
+    //     }else{
+    //       next('/login?redirect='+to.fullPath)
+    //     }
 
-  //   // }
+    // }
 
-  // },
+  },
   {
     path: '/course/:name',
     component: () => import('../views/Detail.vue')
@@ -87,7 +89,9 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   //判断逻辑：
   //是否登录
-  if (window.isLogin) {
+  console.log(store.state.user.isLogin);
+
+  if (store.state.user.isLogin) {
     //去登录页
     if (to.path === '/login') {
       next('/')
