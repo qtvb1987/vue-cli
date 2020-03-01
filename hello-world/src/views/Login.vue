@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="login" v-if="!$store.state.user.isLogin">登录</button>
+    <button @click="login" v-if="!isLogin">登录</button>
     <button @click="logout" v-else>注销</button>
   </div>
 </template>
@@ -19,6 +19,7 @@ export default {
       // this.$store
       //   .dispatch("user/login", "admin")
       //   .then(() => {
+      //用户可以改状态this.$store.state.user.isLogin = true;
       this["user/login"]("admin")
         .then(() => {
           // //动态添加路由

@@ -37,14 +37,14 @@ export default {
     //this.batchUpdate();
   },
   methods: {},
-  beforeRouteEnter(to, from, next) {
-    //是否登录
-    if (window.isLogin) {
-      next();
-    } else {
-      next("/login?redirect=" + to.fullPath);
-    }
-  },
+  // beforeRouteEnter(to, from, next) {
+  //   //是否登录
+  //   if (window.isLogin) {
+  //     next();
+  //   } else {
+  //     next("/login?redirect=" + to.fullPath);
+  //   }
+  // },
   activated() {
     console.log("activated");
   },

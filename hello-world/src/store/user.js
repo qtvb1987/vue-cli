@@ -1,15 +1,24 @@
 export default {
     namespaced: true,//设置独立命名空间，避免命名冲突
     state: {
-        isLogin: false
+        isLogin: false,
+        username: ''//用户名
+    },
+    getters: {
+        welcome: state => state.username + ',欢迎你回来'
     },
     mutations: {
-        login(state) {
+        login(state, username) {
             state.isLogin = true
+            state.username = username
         },
         logout(state) {
             state.isLogin = false
-        }
+            state.username = ''
+        },
+        // setUsername(state, username) {
+        //     state.username = username
+        // }
     },
     actions: {
         //参数1是vuex传递的上下文context：{commit,dispatch,state}
@@ -18,7 +27,7 @@ export default {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     if (username === 'admin') {
-                        commit('login')
+                        commit('login', username)
                         resolve()
                     }
                     else {
